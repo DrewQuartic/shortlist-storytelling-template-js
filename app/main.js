@@ -16,11 +16,11 @@ var LEFT_PANE_WIDTH_THREE_COLUMN = 485;
 
 var TWO_COLUMN_THRESHOLD = 960;
 
-var FIELDNAME_NUMBER = "Number";
-var FIELDNAME_TITLE = "Title";
+var FIELDNAME_NUMBER = "FID";
+var FIELDNAME_TITLE = "Firm";
 var FIELDNAME_SHORTDESC = "Short_desc";
 var FIELDNAME_IMAGEURL = "Image_URL";
-var FIELDNAME_ADDRESS = "Address";
+var FIELDNAME_ADDRESS = "F13";
 var FIELDNAME_HOURS = "Hours";
 var FIELDNAME_WEBSITE = "Website";
 var FIELDNAME_DESC1 = "Desc1";
@@ -711,10 +711,13 @@ function buildLayer(arr,iconDir,root) {
 	var pt;
 	var sym;
 	var spec = _lutIconSpecs["tiny"];
-	$.each(arr,function(index,value){
-		pt = new esri.geometry.Point(value.geometry.x,value.geometry.y,value.geometry.spatialReference);
-		sym = createPictureMarkerSymbol("images/icons/"+iconDir+"/"+root+value.attributes.getValueCI(FIELDNAME_NUMBER)+".png", _lutIconSpecs["tiny"]);
-		layer.add(new esri.Graphic(pt,sym,value.attributes));
+	$.each(arr, function (index, value) {
+	    if (value.geometry) {
+	        pt = new esri.geometry.Point(value.geometry.x, value.geometry.y, value.geometry.spatialReference);
+	        sym = createPictureMarkerSymbol("images/icons/" + iconDir + "/" + root + value.attributes.getValueCI(FIELDNAME_NUMBER) + ".png", _lutIconSpecs["tiny"]);
+	        layer.add(new esri.Graphic(pt, sym, value.attributes));
+	    }
+
 	});
 	return layer;
 }
